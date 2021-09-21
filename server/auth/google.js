@@ -69,7 +69,7 @@ router.get('google.callback', auth({ required: false }), async ctx => {
     const googleId = profile.data.hd;
   }
   if (!profile.data.hd) {
-    profile.data.hd =  googleID + ".de"    
+    profile.data.hd =  googleId + ".de"    
   }
 
   // --------------------------------------------------------------------------
