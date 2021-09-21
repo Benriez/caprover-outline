@@ -17,6 +17,8 @@ const client = new OAuth2Client(
 );
 const allowedDomainsEnv = process.env.GOOGLE_ALLOWED_DOMAINS;
 const allowedEmailsEnv = process.env.GOOGLE_ALLOWED_EMAILS;
+const allowedTeamId = process.env.TEAM_ID;
+
 
 // start the oauth process and redirect user to Google
 router.get('google', async ctx => {
@@ -55,14 +57,19 @@ router.get('google.callback', auth({ required: false }), async ctx => {
     return;
   }
 
-
-  let googleId = process.env.TEAM_ID;
+  // --------------------------------------------------------------------------
+  // allow private gmail account  
+  
+  let googleId = allowedTeamId;
   if(!googleId) {
     const googleId = profile.data.hd;
   }
   if (!profile.data.hd) {
     profile.data.hd =  googleID + ".de"    
   }
+
+  // --------------------------------------------------------------------------
+
   const hostname = profile.data.hd.split('.')[0];
   const teamName = capitalize(hostname);
 
