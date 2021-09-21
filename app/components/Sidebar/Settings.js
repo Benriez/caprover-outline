@@ -51,7 +51,7 @@ class SettingsSidebar extends React.Component<Props> {
         <HeaderBlock
           subheading="◄ Return to App"
           teamName={team.name}
-          // logoUrl={team.avatarUrl}
+          logoUrl={team.avatarUrl}
           onClick={this.returnToDashboard}
         />
 
