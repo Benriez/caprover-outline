@@ -45,9 +45,13 @@ router.get('google.callback', auth({ required: false }), async ctx => {
     url: 'https://www.googleapis.com/oauth2/v1/userinfo',
   });
 
+  const allowedEmails = allowedEmailsEnv && allowedEmailsEnv.split(',');
+
   if (!profile.data.hd) {
-    ctx.redirect('/?notice=google-hd');
-    return;
+    if (allowedEmails && !allowedEmails.includes(profile.data.email)) {
+      ctx.redirect('/?notice=google-hd');
+      return;
+    }
   }
 
   // allow all domains by default if the env is not set
@@ -59,7 +63,7 @@ router.get('google.callback', auth({ required: false }), async ctx => {
 
   // --------------------------------------------------------------------------
   // allow private gmail account  
-  
+
   let googleId = allowedTeamId;
   if(!googleId) {
     const googleId = profile.data.hd;
